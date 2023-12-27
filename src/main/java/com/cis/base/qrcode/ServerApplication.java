@@ -15,6 +15,7 @@
 package com.cis.base.qrcode;
 
 import com.cis.base.qrcode.config.core.boot.AbstractApplicationConfig;
+import com.cis.base.qrcode.config.core.boot.DataSourceConfig;
 import com.cis.base.qrcode.config.core.boot.ExitUtil;
 import com.cis.base.qrcode.config.core.boot.TomcatConfig;
 import org.springframework.boot.SpringApplication;
@@ -30,7 +31,7 @@ public class ServerApplication {
 		ExitUtil.waitForKeyPressToCleanlyExit(ctx);
 	}
 
-	@Import({TomcatConfig.class})
+	@Import({TomcatConfig.class, DataSourceConfig.class})
 	private static class Configuration extends AbstractApplicationConfig {
 	}
 
