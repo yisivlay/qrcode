@@ -1,0 +1,38 @@
+/**
+ * Copyright 2023 CIS (Cam info Services)
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.cis.base;
+
+import com.cis.base.config.core.boot.AbstractApplicationConfig;
+import com.cis.base.config.core.boot.DataSourceConfig;
+import com.cis.base.config.core.boot.ExitUtil;
+import com.cis.base.config.core.boot.TomcatConfig;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Import;
+
+import java.io.IOException;
+
+public class ServerApplication {
+
+	public static void main(String[] args) throws IOException {
+		ConfigurableApplicationContext ctx = SpringApplication.run(Configuration.class, args);
+		ExitUtil.waitForKeyPressToCleanlyExit(ctx);
+	}
+
+	@Import({TomcatConfig.class, DataSourceConfig.class})
+	private static class Configuration extends AbstractApplicationConfig {
+	}
+
+}
