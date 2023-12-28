@@ -1,2 +1,2 @@
 rootProject.projectDir = new File(settingsDir, "../" + rootProject.name)
-rootProject.name="qrcode-provider"
+rootProject.name="qrcode"
