@@ -10,8 +10,8 @@ plugins {
 group = 'com.cis.base'
 
 def props = new Properties()
-file('gradle.properties').withInputStream { props.load(it) }
-version = props.getProperty('cis.project.build')
+file('.env').withInputStream { props.load(it) }
+version = props.getProperty('ENVIROMENT')
 
 java {
 	sourceCompatibility = '17'

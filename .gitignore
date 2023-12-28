@@ -38,7 +38,7 @@ out/
 
 ### DataSource Connection ###
 /src/main/resources/META-INF/spring/jdbc.properties
-gradle.properties
+.env
 
 ### Java ###
 # Compiled class file
