@@ -69,7 +69,7 @@ public class JdbcTenantDetailsService implements TenantDetailsService {
         return this.jdbcTemplate.query(sql, rm, new Object[]{});
     }
 
-    private static final class TenantMapper implements RowMapper<PlatformTenant> {
+    public static final class TenantMapper implements RowMapper<PlatformTenant> {
 
         private final StringBuilder sqlBuilder = new StringBuilder("t.id, ts.id as connectionId , ")
                 .append(" t.timezone_id as timezoneId , t.name,t.identifier, ts.schema_name as schemaName, ts.schema_server as schemaServer,")

@@ -15,13 +15,18 @@
 package com.cis.base.administration.user.domain;
 
 import com.cis.base.administration.office.domain.Office;
+import com.cis.base.administration.permission.domain.Permission;
+import com.cis.base.administration.role.domain.Role;
+import com.cis.base.config.core.security.domain.PlatformUser;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.AbstractPersistable;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.util.*;
 
 /**
  * @author YSivlay
@@ -34,7 +39,13 @@ import java.util.Date;
         @UniqueConstraint(columnNames = {"phone"}, name = "phone"),
         @UniqueConstraint(columnNames = {"email"}, name = "email")
 })
-public class User extends AbstractPersistable<Long> {
+public class User extends AbstractPersistable<Long> implements PlatformUser {
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
     @ManyToOne
     @JoinColumn(name = "office_id", nullable = false)
@@ -151,4 +162,19 @@ public class User extends AbstractPersistable<Long> {
         this.credentialsNonExpired = false;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return populateGrantedAuthorities();
+    }
+
+    private List<GrantedAuthority> populateGrantedAuthorities() {
+        final List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        for (final Role role : this.roles) {
+            final Collection<Permission> permissions = role.getPermissions();
+            for (final Permission permission : permissions) {
+                grantedAuthorities.add(new SimpleGrantedAuthority(permission.getCode()));
+            }
+        }
+        return grantedAuthorities;
+    }
 }
