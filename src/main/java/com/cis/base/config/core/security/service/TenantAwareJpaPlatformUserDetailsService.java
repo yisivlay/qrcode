@@ -27,8 +27,12 @@ import org.springframework.stereotype.Service;
 @Service(value = "userDetailsService")
 public class TenantAwareJpaPlatformUserDetailsService implements PlatformUserDetailsService {
 
+    private final PlatformUserRepository platformUserRepository;
+
     @Autowired
-    private PlatformUserRepository platformUserRepository;
+    public TenantAwareJpaPlatformUserDetailsService(PlatformUserRepository platformUserRepository) {
+        this.platformUserRepository = platformUserRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

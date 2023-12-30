@@ -82,7 +82,6 @@ public class TenantAwareBasicAuthenticationFilter extends BasicAuthenticationFil
                             + tenantRequestHeader
                             + "' or add the parameter 'tenantIdentifier' to query string of request URL.");
                 }
-                String pathInfo = request.getRequestURI();
                 final PlatformTenant tenant = this.basicAuthTenantDetailsService.loadTenantById(tenantIdentifier);
                 ThreadLocalContextUtil.setTenant(tenant);
                 String authToken = request.getHeader("Authorization");
